@@ -10,7 +10,7 @@ app.use(express.json())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = "mongodb://localhost:27017";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -36,6 +36,13 @@ async function run() {
       const result = await productCOll.insertOne( newProduct)
       res.send(result)
 
+    })
+
+    app.get('/singleproduct/:id',async(req , res)=>{
+      console.log(req.params.id)
+      const result = await productCOll.findOne({_id : new ObjectId(req.params.id)})
+
+      res.send(result)
     })
 
     app.get('/myproducts/:email',async(req ,res)=>{
